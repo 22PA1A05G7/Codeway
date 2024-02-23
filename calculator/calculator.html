@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #calculator {
+      width: 300px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 48px;
+      height: 48px;
+      margin: 0 5px 5px 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="calculator">
+  <input type="text" id="result" readonly>
+
+  <button onclick="appendToResult('7')">7</button>
+  <button onclick="appendToResult('8')">8</button>
+  <button onclick="appendToResult('9')">9</button>
+  <button onclick="clearResult()">C</button><br>
+
+  <button onclick="appendToResult('4')">4</button>
+  <button onclick="appendToResult('5')">5</button>
+  <button onclick="appendToResult('6')">6</button>
+  <button onclick="setOperator('+')">+</button><br>
+
+  <button onclick="appendToResult('1')">1</button>
+  <button onclick="appendToResult('2')">2</button>
+  <button onclick="appendToResult('3')">3</button>
+  <button onclick="setOperator('-')">-</button><br>
+
+  <button onclick="appendToResult('0')">0</button>
+  <button onclick="calculate()">=</button>
+  <button onclick="setOperator('/')">/</button>
+  <button onclick="setOperator('')"></button>
+
+</div>
+
+<script>
+  let result = document.getElementById('result');
+  let currentInput = '';
+
+  function clearResult() {
+    result.value = '';
+    currentInput = '';
+  }
+
+  function appendToResult(value) {
+    currentInput += value;
+    result.value = currentInput;
+  }
+
+  function setOperator(operator) {
+    if (currentInput !== '' && !currentInput.includes(operator)) {
+      // Check if the last character is an operator, if yes, replace it with the new one
+      if ('+-*/'.includes(currentInput[currentInput.length - 1])) {
+        currentInput = currentInput.slice(0, -1) + operator;
+      } else {
+        currentInput += operator;
+      }
+      result.value = currentInput;
+    }
+  }
+
+  function calculate() {
+    // Check if the last character is an operator, if yes, remove it
+    if ('+-*/'.includes(currentInput[currentInput.length - 1])) {
+      currentInput = currentInput.slice(0, -1);
+    }
+    
+    try {
+      result.value = eval(currentInput);
+      currentInput = result.value;
+    } catch (error) {
+      result.value = 'Error';
+    }
+  }
+</script>
+
+</body>
+</html>
